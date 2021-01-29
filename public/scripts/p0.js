@@ -115,9 +115,14 @@ function Dial(x, y, click_sound) {
   this.start = false;
   this.fade = 0;
 
+  this.help = false;
+  this.tint = 0;
+
   this.x = x;
   this.y = y;
   this.r = 150;
+
+  this.shadow_offset = 10;
 
   this.dragging = false;
   this.playing = false;
@@ -131,6 +136,7 @@ function Dial(x, y, click_sound) {
 
   this.start_up = function() {
     this.start = true;
+    this.help = true;
   }
 
   this.display = function() {
@@ -141,9 +147,14 @@ function Dial(x, y, click_sound) {
     push();
     noStroke();
     translate(this.x, this.y);
+
+    fill(54, 18, 9);
+    circle(this.shadow_offset, this.shadow_offset, this.r*2);
+
     rotate(this.angle);
 
     push();
+
     fill(255, 89, 43);
     circle(0, 0, this.r*2);
 
@@ -164,6 +175,22 @@ function Dial(x, y, click_sound) {
       } else {
         triangle(-30, -60, -30, 60, 60, 0);
       }
+
+      if(this.help) {
+        push();
+        translate(-14, -120);
+        scale(0.015);
+        if(this.fade < 255) {
+          tint(166, 55, 25, 0);
+        } else {
+          tint(166, 55, 25, map(cos(this.tint), 0, 1, 0, 128, true));
+        }
+          
+        image(arrows_png, 0, 0)
+        pop();
+
+        this.tint += 0.1;
+      }
     }
     
     pop();
@@ -173,6 +200,7 @@ function Dial(x, y, click_sound) {
   this.start_drag = function() {
     if(this.start && this.checkHover(mouseX, mouseY) && !this.dragging) {
       this.dragging = true;
+      this.help = false;
       let dx = mouseX - this.x;
       let dy = mouseY - this.y;
       this.angle_offset = atan2(dy, dx) - this.angle;
@@ -203,7 +231,13 @@ function Dial(x, y, click_sound) {
   }
 
   this.checkHover = function(x, y) {
-    return dist(x, y, this.x, this.y) <= this.r;
+    if(dist(x, y, this.x, this.y) <= this.r) {
+      this.shadow_offset = 5;
+      return true;
+    } else {
+      this.shadow_offset = 10;
+      return false;
+    }
   }
 
   this.release = function() {
@@ -217,6 +251,11 @@ function Dial(x, y, click_sound) {
     } else {
       this.angle = -1.5708;
     }
+  }
+
+  this.move = function(x, y) {
+    this.x = x;
+    this.y = y;
   }
 }
 
@@ -329,6 +368,11 @@ function Radio(stations, x, y, pop_sound) {
       this.stations[this.state].sound.play();
     }
   }
+
+  this.move = function(x, y) {
+    this.x = x;
+    this.y = y;
+  }
 }
 
 let the_button;
@@ -347,7 +391,6 @@ let sound1 = new Howl({
 });
 
 let sound2 = new Howl({
-  // src: 'https://us4.internet-radio.com/proxy/douglassinclair?mp=/stream',
   src: 'http://rfcmedia.streamguys1.com/MusicPulse.mp3',
   html5: true,
   volume: 0.5,
@@ -384,15 +427,12 @@ let stations = [sound1, sound2, sound3];
 
 function preload() {
   yoda_png = loadImage('../assets/yoda_png.png');
+  arrows_png = loadImage('../assets/arrows.png');
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
-  ping_sound = createAudio('../assets/ping.mp3');
-
-  the_button = new Button(windowWidth/2, windowHeight/2);
-  c_anim = new circleAnimation(windowWidth/2, windowHeight/2, ping_sound);
   dial = new Dial(width/2, height/2, click_sound);
   radio = new Radio([
     {
@@ -436,8 +476,6 @@ let k = 0;
 function draw() {
   background(b_colour);
   
-  c_anim.display();
-  //the_button.display();
   if(dial.checkHover(mouseX, mouseY)) {
     if(dist(dial.x, dial.y, mouseX, mouseY) > 100) {
       cursor('grab');
@@ -487,7 +525,6 @@ function draw() {
 
     pop();
 
-
     image(yoda_png, -300 + m, k+cos(n*10)*5);
 
     n += 0.005;
@@ -495,28 +532,8 @@ function draw() {
   }
 }
 
-function mouseClicked() {
-  /*
-  if(!the_button.was_dragging) {
-    if(the_button.click(mouseX, mouseY)) {
-      //b_colour = '#ff592b'
-      if(c_anim.go == false) {
-        c_anim.move(the_button.x, the_button.y);
-        c_anim.activate();
-      }
-    }
-  } else {
-    the_button.was_dragging = false;
-  }
-  */
-}
 
 function mouseDragged() {
-  /*
-  if(!the_button.dragging) {
-    the_button.drag(mouseX, mouseY);
-  }
-  */
   dial.start_drag();
   dont_click = true;
 }
@@ -538,10 +555,11 @@ function mouseClicked() {
 }
 
 function mouseReleased() {
-  //the_button.release();
   dial.release();
 }
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
+  dial.move(width/2, height/2);
+  radio.move(width/2, height/2);
 }
