@@ -12,3 +12,8 @@ $("#src-p0").on("click", e => {
 $("#det-p0").on("click", e => {
     window.location.assign(`${URL}/p0_visual_summary/index.html`);
 });
+
+
+$("#go-p1").on("click", e => {
+    window.location.assign(`${URL}/pages/p1.html`);
+});
