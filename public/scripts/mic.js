@@ -1,10 +1,14 @@
 window.addEventListener('click', (e) => {
-    init();
+    if(!inited) {
+        init();
+    }
 })
 
 var freqBinDataArray; 
+var inited = false;
 
 function init() {
+    inited = true;
     var audioContext = new(window.AudioContext || window.webkitAudioContext)();
     var microphone;
 
@@ -37,7 +41,7 @@ function init() {
         var checkAudio = function() {
             analyser.getByteFrequencyData(freqBinDataArray);
 
-            console.log('Volume: ' + getRMS(freqBinDataArray));
+            //console.log('Volume: ' + getRMS(freqBinDataArray));
             //console.log('Freq Bin: ' + getIndexOfMax(freqBinDataArray));
             //console.log(freqBinDataArray);
         }
