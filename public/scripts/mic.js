@@ -1,7 +1,8 @@
 var freqBinDataArray; 
 var inited = false;
+var vib = false;
 
-function init() {
+function initM() {
     document.getElementById("overlay").style.display = "none";
     inited = true;
     var audioContext = new(window.AudioContext || window.webkitAudioContext)();
@@ -25,6 +26,18 @@ function init() {
             })
     } else {
         console.error('getUserMedia unsupported by browser');
+    }
+
+    navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+
+    if(navigator.vibrate) {
+        vib = true;
+    }
+
+    function setVibrate(s) {
+        if(vib) {
+            navigator.vibrate(s);
+        }
     }
 
     function beginRecording() {

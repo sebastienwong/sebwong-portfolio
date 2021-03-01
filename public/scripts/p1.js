@@ -113,8 +113,6 @@ function setup() {
 
       sink_sound.play();
 
-      Navigator.vibrate(200);
-
       Body.setPosition(ball, {x:width/2, y:6*height/8});
       Body.setVelocity(ball, {x: 0, y:0})
       shrink = 0;
@@ -290,6 +288,7 @@ function hit(a) {
   //console.log('hit power: ', p);
   let p = 0.01;
   Body.applyForce(ball, ball.position, {x: cos(a) * p, y: sin(a) * p});
+  setVibrate(200);
 }
 
 function getAngle() {
