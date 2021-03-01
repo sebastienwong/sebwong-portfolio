@@ -1,13 +1,8 @@
-window.addEventListener('click', (e) => {
-    if(!inited) {
-        init();
-    }
-})
-
 var freqBinDataArray; 
 var inited = false;
 
 function init() {
+    document.getElementById("overlay").style.display = "none";
     inited = true;
     var audioContext = new(window.AudioContext || window.webkitAudioContext)();
     var microphone;
