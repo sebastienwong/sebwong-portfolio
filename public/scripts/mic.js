@@ -2,7 +2,7 @@ var freqBinDataArray;
 var inited = false;
 var vib = false;
 
-function initM() {
+function init() {
     document.getElementById("overlay").style.display = "none";
     inited = true;
     var audioContext = new(window.AudioContext || window.webkitAudioContext)();
