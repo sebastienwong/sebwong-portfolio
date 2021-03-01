@@ -113,7 +113,7 @@ function setup() {
 
       sink_sound.play();
 
-      navigator.vibrate(200);
+      Navigator.vibrate(200);
 
       Body.setPosition(ball, {x:width/2, y:6*height/8});
       Body.setVelocity(ball, {x: 0, y:0})
@@ -246,7 +246,6 @@ function draw() {
       line(0, 0, 50, 0);
       pop();
     } else {
-      console.log(ball.speed);
       if(ball.speed <= 0.1) {
         Body.setVelocity(ball, {x: 0, y:0})
         moving = false;
