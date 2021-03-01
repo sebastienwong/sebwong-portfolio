@@ -4,7 +4,7 @@ var inited = false;
 function init() {
     document.getElementById("overlay").style.display = "none";
     inited = true;
-    var audioContext = new(window.webkitAudioContext)();
+    var audioContext = new(window.AudioContext || window.webkitAudioContext)();
     var microphone;
 
     var analyser = audioContext.createAnalyser();

@@ -8,6 +8,7 @@ let engine;
 let world;
 
 let archer;
+let sink_sound;
 
 let wallA;
 let wallB;
@@ -37,7 +38,7 @@ let shot_fade = 41;
 
 let shots = 0;
 let stage = 1;
-let stage_text = "Welcome to Annoying Golf!  Let's start by making some noise.";
+let stage_text = "Welcome to Annoying Golf!  The controls are simple: Make noise to aim, tap to hit!";
 
 let a_dim;
 let b_dim;
@@ -50,6 +51,10 @@ function audioStart() {
 
 function preload() {
   archer = loadFont('../assets/archer.otf');
+
+  soundFormats('mp3', 'ogg');
+  sink_sound = loadSound('../assets/golf_sink.mp3');
+  sink_sound.setVolume(0.5);
 }
 
 function setup() {
@@ -66,7 +71,7 @@ function setup() {
 
   b_dim = {
     w: 5,
-    h: 3*height/4 - 20
+    h: 7*height/8 - 40
   }
 
   c_dim = {
@@ -76,15 +81,15 @@ function setup() {
 
   d_dim = {
     w: 5,
-    h: 3*height/4 - 20
+    h: 7*height/8 - 40
   }
 
   wallA = Bodies.rectangle(width/2, 10-a_dim.h*50, a_dim.w*100, a_dim.h*100, { isStatic: true });
-  wallB = Bodies.rectangle(10-b_dim.w*50, height/4 + height/8, b_dim.w*100, b_dim.h, { isStatic: true });
-  wallC = Bodies.rectangle(width/2, 3*height/4-10+c_dim.h*50, c_dim.w*100, c_dim.h*100, { isStatic: true });
-  wallD = Bodies.rectangle(width-10+b_dim.w*50, 3*height/8, d_dim.w*100, d_dim.h, { isStatic: true});
+  wallB = Bodies.rectangle(10-b_dim.w*50, 7*height/16 - 10, b_dim.w*100, b_dim.h, { isStatic: true });
+  wallC = Bodies.rectangle(width/2, 7*height/8-30+c_dim.h*50, c_dim.w*100, c_dim.h*100, { isStatic: true });
+  wallD = Bodies.rectangle(width-10+b_dim.w*50, 7*height/16 - 10, d_dim.w*100, d_dim.h, { isStatic: true});
 
-  ball = Bodies.circle(width/2, 3*height/5, 10, {restitution: 0.4});
+  ball = Bodies.circle(width/2, 6*height/8, 10, {restitution: 0.4});
   hole = Bodies.circle(width/2, height/6, 4, {isStatic: true, isSensor: false});
 
   ballID = ball.id;
@@ -106,11 +111,17 @@ function setup() {
       shot_fade = 0;
       shots = 0;
 
-      Body.setPosition(ball, {x:width/2, y:3*height/5});
+      sink_sound.play();
+
+      navigator.vibrate(200);
+
+      Body.setPosition(ball, {x:width/2, y:6*height/8});
       Body.setVelocity(ball, {x: 0, y:0})
       shrink = 0;
     }
   });
+
+  loadStage();
 }
 
 function draw() {
@@ -120,7 +131,7 @@ function draw() {
 
   push();
   fill(32, 133, 59);
-  rect(10, 10, width-20, 3*height/4-20);
+  rect(10, 10, width-20, 7*height/8-40);
   pop();
 
   push();
@@ -245,14 +256,13 @@ function draw() {
 
   push();
   fill(255, 232, 217);
-  rect(10, 3*height/4 + 10, width - 20, height/8, 10, 10, 10, 10);
+  rect(10, 7*height/8 - 10, width - 20, height/8, 10, 10, 10, 10);
   pop();
 
   push();
   fill(10);
   textSize(22);
-  textFont(archer);
-  text(stage_text, 20, 3*height/4 + 20, width - 40, height/8 - 10);
+  text(stage_text, 20, 7*height/8 + 5, width - 40, height/8 - 10);
   pop();
 }
 
@@ -333,19 +343,20 @@ function touchStarted() {
 
 function loadStage() {
   stage++
+  if(stage == 1) {
 
-  if(stage == 2) {
+  } else if(stage == 2) {
     stage_text = "Phew! That was annoying. Let's add a few blocks."
 
     e1 = {
-      b: Bodies.rectangle(3*width/8 - 15, height/2, 5*width/8, 50, {isStatic: true}),
+      b: Bodies.rectangle(3*width/8 - 15, 10*height/16, 5*width/8, 50, {isStatic: true}),
       w: 5*width/8,
       h: 50,
     }
     stageElements.push(e1);
 
     e2 = {
-      b: Bodies.rectangle(5*width/8 + 15, 2*height/8, 5*width/8, 50, {isStatic: true}),
+      b: Bodies.rectangle(5*width/8 + 15, 6*height/16, 5*width/8, 50, {isStatic: true}),
       w: 5*width/8,
       h: 50,
     }
@@ -355,7 +366,7 @@ function loadStage() {
     World.add(world, e2.b);
 
   } else if(stage == 3) {
-    stage_text = "Did you know they played gold on the moon?"
+    stage_text = "Did you know they played golf on the moon?"
   } else {
     stage--;
   }
