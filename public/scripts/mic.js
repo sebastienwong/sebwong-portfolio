@@ -32,6 +32,9 @@ function init() {
 
     if(navigator.vibrate) {
         vib = true;
+        console.log("Vibration supported");
+    } else {
+        console.log("Vibration not supported");
     }
 
     function setVibrate(s) {
