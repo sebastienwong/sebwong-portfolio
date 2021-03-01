@@ -33,6 +33,7 @@ let moving = false;
 
 let sunk = false;
 let shrink = 0;
+let shot_fade = 41;
 
 let shots = 0;
 let stage = 1;
@@ -83,8 +84,8 @@ function setup() {
   wallC = Bodies.rectangle(width/2, 3*height/4-10+c_dim.h*50, c_dim.w*100, c_dim.h*100, { isStatic: true });
   wallD = Bodies.rectangle(width-10+b_dim.w*50, 3*height/8, d_dim.w*100, d_dim.h, { isStatic: true});
 
-  ball = Bodies.circle(width/2, 3*height/5, 10, {restitution: 0.3});
-  hole = Bodies.circle(width/2, height/6, 4, {isStatic: true, isSensor: true});
+  ball = Bodies.circle(width/2, 3*height/5, 10, {restitution: 0.4});
+  hole = Bodies.circle(width/2, height/6, 4, {isStatic: true, isSensor: false});
 
   ballID = ball.id;
   holeID = hole.id;
@@ -102,9 +103,10 @@ function setup() {
     
     if((a.id == ballID && b.id == holeID) || (a.id == holeID && b.id == ballID)) {
       sunk = true;
+      shot_fade = 0;
       shots = 0;
 
-      Body.setPosition(ball, { x:width/2, y:3*height/5});
+      Body.setPosition(ball, {x:width/2, y:3*height/5});
       Body.setVelocity(ball, {x: 0, y:0})
       shrink = 0;
     }
@@ -112,12 +114,18 @@ function setup() {
 }
 
 function draw() {
-  background(32, 133, 59);
+  background(173, 105, 52);
   noStroke();
+  textFont(archer);
+
+  push();
+  fill(32, 133, 59);
+  rect(10, 10, width-20, 3*height/4-20);
+  pop();
 
   push();
   fill(255, 50);
-  textSize(width*1.84);
+  textSize(width*1.85);
   text(shots, 0, 4*height/6);
   pop();
 
@@ -135,22 +143,12 @@ function draw() {
     circle(hole.position.x + random(-1,1), hole.position.y, 18);
     pop();
 
-    push();
-    let p = map(shrink, 0, 20, 0, TWO_PI);
-    let c = cos(p);
-    fill(10, map(c, -1, 1, 255, 0));
-    textSize(25);
-    rectMode(CENTER);
-    text("Nice shot!", hole.position.x-width/7, hole.position.y-height/30-shrink);
-    pop();
-
-    shrink += 1;
+    shrink ++;
 
     if(shrink >= 20) {
       sunk = false;
       loadStage();
     }
-
   } else {
     push();
     translate(ball.position.x, ball.position.y);
@@ -159,9 +157,22 @@ function draw() {
     circle(0, 0, 20);
     pop();
   }
+
+  if(shot_fade <= 40) {
+    push();
+    let p = map(shot_fade, 0, 40, 0, TWO_PI);
+    let c = cos(p);
+    fill(10, map(c, -1, 1, 255, 0));
+    textSize(25);
+    rectMode(CENTER);
+    text("Nice shot!", hole.position.x-width/7, hole.position.y-height/30-shot_fade);
+    pop();
+
+    shot_fade++;
+  }
   
   push();
-  fill(64, 31, 8);
+  fill(102, 55, 18);
 
   push();
   translate(wallA.position.x, wallA.position.y+a_dim.h*50);
@@ -224,7 +235,8 @@ function draw() {
       line(0, 0, 50, 0);
       pop();
     } else {
-      if(ball.speed <= 0.02) {
+      console.log(ball.speed);
+      if(ball.speed <= 0.1) {
         Body.setVelocity(ball, {x: 0, y:0})
         moving = false;
       }
@@ -238,7 +250,7 @@ function draw() {
 
   push();
   fill(10);
-  textSize(20);
+  textSize(22);
   textFont(archer);
   text(stage_text, 20, 3*height/4 + 20, width - 40, height/8 - 10);
   pop();
@@ -268,14 +280,7 @@ function hit(a) {
   console.log('hit angle: ' + a);
   //console.log('hit power: ', p);
   let p = 0.01;
-  if(stage == 3) {
-    world.gravity.y = 0;
-    Body.setStatic(hole, false);
-    //hole.isSensor = false;
-    Body.applyForce(hole, hole.position, {x: cos(a) * p, y: sin(a) * p});
-  } else {
-    Body.applyForce(ball, ball.position, {x: cos(a) * p, y: sin(a) * p});
-  }
+  Body.applyForce(ball, ball.position, {x: cos(a) * p, y: sin(a) * p});
 }
 
 function getAngle() {
@@ -317,6 +322,11 @@ function mousePressed() {
   if(start && !moving) {
     //a = getAngle();
     //Body.applyForce(ball, ball.position, {x: cos(a) * 0.01, y: sin(a) * 0.005});
+    if(stage == 3) {
+      world.gravity.y = 0.25;
+    } else {
+      world.gravity.y = 0;
+    }
     hit(getAngle());
   }
 }
@@ -345,8 +355,9 @@ function loadStage() {
     World.add(world, e2.b);
 
   } else if(stage == 3) {
-    stage = 2;
-    //Body.setStatic(ball, true);
+    stage_text = "Did you know they played gold on the moon?"
+  } else {
+    stage--;
   }
 }
 
