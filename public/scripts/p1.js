@@ -318,7 +318,7 @@ function keyPressed() {
   }
 }
 
-function mousePressed() {
+function touchStarted() {
   if(start && !moving) {
     //a = getAngle();
     //Body.applyForce(ball, ball.position, {x: cos(a) * 0.01, y: sin(a) * 0.005});
