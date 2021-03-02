@@ -102,7 +102,7 @@ function setup() {
   wallD = Bodies.rectangle(width-10+b_dim.w*50, 7*height/16 - 10, d_dim.w*100, d_dim.h, { isStatic: true});
 
   ball = Bodies.circle(width/2, 6*height/8, 10, {restitution: 0.4});
-  hole = Bodies.circle(width/2, height/6, 5, {isStatic: true, isSensor: false});
+  hole = Bodies.circle(width/2, height/6, 8, {isStatic: true, isSensor: false});
 
   ballID = ball.id;
   holeID = hole.id;
@@ -263,7 +263,7 @@ function draw() {
       line(0, 0, 50, 0);
       pop();
     } else {
-      if(ball.speed <= 0.1) {
+      if(ball.speed <= 0.3) {
         Body.setVelocity(ball, {x: 0, y:0})
         moving = false;
       }
