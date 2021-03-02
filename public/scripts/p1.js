@@ -34,6 +34,7 @@ let curAngle = 0;
 
 let aiming = false;
 let moving = false;
+let lineFade = 0;
 
 let sunk = false;
 let shrink = 0;
@@ -45,6 +46,7 @@ let shots = 0;
 let score = 0;
 let stage = 0;
 let stage_text;
+let end = false;
 
 let a_dim;
 let b_dim;
@@ -151,8 +153,9 @@ function draw() {
   push();
   fill(255, 50);
   textAlign(CENTER);
-  textSize(width);
-  text(shots, width/2, height/2 + 50);
+  textSize(7*height/8);
+  textFont("Courier New");
+  text(stage, width/2, height/2 + 150);
   pop();
 
   push();
@@ -175,6 +178,12 @@ function draw() {
       sunk = false;
       loadStage();
     }
+  } else if(end) {
+    push();
+    textAlign(CENTER);
+    textSize(60);
+    text("Score: " + score, width/2, height/2);
+    pop();
   } else {
     push();
     translate(ball.position.x, ball.position.y);
@@ -242,27 +251,30 @@ function draw() {
 
   pop();
 
-  if(start && !sunk) {
+  if(start && !sunk && !end) {
     if(!moving) {
-      /*
-      if(!aiming) {
-        checkAim();
-      } else {
-        checkHit();
-      }
-      */
-
       push();
-      stroke(0);
+      stroke(0, map(lineFade, 0, 10, 0, 255))
       strokeWeight(2);
       translate(ball.position.x, ball.position.y);
 
       let a = getAngle();
       rotate(a);
-      //rectMode(CENTER);
       line(0, 0, 50, 0);
       pop();
+
+      push();
+      fill(0, map(lineFade, 0, 10, 0, 255))
+      textFont("Courier New");
+      textSize(30);
+      text(shots, ball.position.x+10, ball.position.y-10);
+      pop();
+
+      if(lineFade < 10) {
+        lineFade++
+      }
     } else {
+      lineFade = 0;
       if(ball.speed <= 0.3) {
         Body.setVelocity(ball, {x: 0, y:0})
         moving = false;
@@ -282,29 +294,11 @@ function draw() {
   pop();
 }
 
-function checkAim() {
-  aiming = true;
-}
-
-function checkHit() {
-  let f = getFreq();
-  let v = getVolume();
-
-  peakVol = max(v, peakVol);
-
-  if(v < 15) {
-    //hit(getAngle(), getPower()/6000);
-  }
-}
-
 function hit(a) {
   aiming = false;
   moving = true;
   shots++;
-  //prevAngle = 0;
-  //prevPow = 0;
-  console.log('hit angle: ' + a);
-  //console.log('hit power: ', p);
+
   let p = 0.01;
   Body.applyForce(ball, ball.position, {x: cos(a) * p, y: sin(a) * p});
   swing_sound.play();
@@ -320,14 +314,6 @@ function getAngle() {
   return map(prevVol, 20, 70, -3*PI/2, PI/2, true);
 }
 
-function getPower() {
-  let v = getVolume();
-  if(v > 15) {
-    prevVol = v;
-  }
-  return prevVol;
-}
-
 function keyPressed() {
   if(key == 'w') {
     Body.applyForce(ball, ball.position, {x: 0, y: -0.005});
@@ -337,16 +323,11 @@ function keyPressed() {
     Body.applyForce(ball, ball.position, {x: 0, y: 0.005});
   } else if(key == 'd') {
     Body.applyForce(ball, ball.position, {x: 0.005, y: 0});
-  } else if(key == ' ') {
-    if(start) {
-      a = getAngle();
-      Body.applyForce(ball, ball.position, {x: cos(a) * 0.01, y: sin(a) * 0.01});
-    }
   }
 }
 
 function touchStarted() {
-  if(start && !moving) {
+  if(start && !moving && !end) {
     //a = getAngle();
     //Body.applyForce(ball, ball.position, {x: cos(a) * 0.01, y: sin(a) * 0.005});
     if(stage == 3) {
@@ -361,6 +342,7 @@ function touchStarted() {
 function loadStage() {
   stage++
   if(stage == 1) { 
+    world.gravity.y = 0;
     stage_text = "Welcome to Annoying Golf!  The controls are simple: Make noise to aim and tap to hit.";
   } else if(stage == 2) {
     stage_text = "Phew! That was annoying. Let's add a few blocks."
@@ -385,7 +367,41 @@ function loadStage() {
   } else if(stage == 3) {
     stage_text = "Did you know they played golf on the moon?"
   } else {
-    stage--;
+    end = true;
+    document.getElementById("restart_button").style.display = 'block';
+
+    if(score > (stage-1)*4) {
+      stage_text = "Thanks for playing!  Crummy score though.";
+    } else if(score > (stage-1)*3) {
+      stage_text = "Thanks for playing!  Score could use improvement.";
+    } else if(score > (stage-1)*2) {
+      stage_text = "Thanks for playing!  Not a bad score, but could you do better?";
+    } else {
+      stage_text = "Thanks for playing!  I didn't even know that score was possible.";
+    }
+    
+    stage = " ";
   }
+}
+
+function restart() {
+  end = false;
+  stage = 0;
+
+  Body.setPosition(ball, {x:width/2, y:6*height/8});
+  Body.setVelocity(ball, {x: 0, y:0})
+
+  for(i = 0; i < stageElements.length; i++) {
+    World.remove(world, stageElements[i].b);
+  }
+
+  stageElements = [];
+
+  score = 0;
+  shots = 0;
+
+  document.getElementById("restart_button").style.display = 'none';
+
+  loadStage();
 }
 

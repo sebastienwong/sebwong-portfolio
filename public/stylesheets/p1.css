@@ -68,6 +68,29 @@ body {
   -ms-transform: translate(-50%,-50%);
 }
 
+#restart_button {
+  position: absolute;
+  display: none;
+  top: 70%;
+  left: 50%;
+  padding: 10px 15px;
+  font-family: 'Archer';
+  font-size: 35px;
+  background-color: rgb(86, 158, 105);
+  color: rgb(255, 232, 217);
+  cursor: pointer;
+  border-style: none;
+  border-radius: 10px;
+  outline: none;
+  box-shadow: none;
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+}
+
+#restart_button:hover {
+  background-color: rgb(253, 210, 181);
+}
+
 @font-face {
   font-family: 'Archer';
   src: url('../assets/archer.otf');
