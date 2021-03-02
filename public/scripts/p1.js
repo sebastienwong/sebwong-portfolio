@@ -12,6 +12,7 @@ let archer;
 let sink_sound;
 let swing_sound;
 let wall_sound;
+let pool_sound;
 
 let wallA;
 let wallB;
@@ -37,14 +38,17 @@ let moving = false;
 let lineFade = 0;
 
 let sunk = false;
+let sink_c = 255;
 let shrink = 0;
 let shot_fade = 41;
 let sinkmoji;
 let sink_emojis = ['🏌️', '👏', '⛳', '🔥', '😎'];
 
+let scratch = false;
+
 let shots = 0;
 let score = 0;
-let stage = 0;
+let stage = 3;
 let stage_text;
 let end = false;
 
@@ -69,6 +73,9 @@ function preload() {
 
   wall_sound = loadSound('../assets/wall_hit.mp3')
   wall_sound.setVolume(0.25);
+
+  pool_sound = loadSound('../assets/pool_hit.mp3');
+  pool_sound.setVolume(0.25);
 }
 
 function setup() {
@@ -104,7 +111,7 @@ function setup() {
   wallD = Bodies.rectangle(width-10+b_dim.w*50, 7*height/16 - 10, d_dim.w*100, d_dim.h, { isStatic: true});
 
   ball = Bodies.circle(width/2, 6*height/8, 10, {restitution: 0.4});
-  hole = Bodies.circle(width/2, height/6, 8, {isStatic: true, isSensor: false});
+  hole = Bodies.circle(width/2, height/6, 8, {isStatic: true, isSensor: true});
 
   ballID = ball.id;
   holeID = hole.id;
@@ -121,17 +128,44 @@ function setup() {
     var b = event.pairs[0].bodyB;
     
     if((a.id == ballID && b.id == holeID) || (a.id == holeID && b.id == ballID)) {
+      sink_c = 255;
       sunk = true;
       shot_fade = 0;
-      score += shots;
-      shots = 0;
+      
 
       sink_sound.play();
-      sinkmoji = random(sink_emojis);
-
+      if(stage == 4) {
+        scratch = true;
+      } else {
+        sinkmoji = random(sink_emojis);
+        score += shots;
+        shots = 0;
+      }
+      
       Body.setPosition(ball, {x:width/2, y:6*height/8});
       Body.setVelocity(ball, {x: 0, y:0})
       shrink = 0;
+    } else if(stage == 4) {
+      if((a.id == stageElements[0].b.id && b.id == holeID) || (a.id == holeID && b.id == stageElements[0].b.id)) {
+        sink_c = stageElements[0].c;
+        sunk = true;
+        shot_fade = 0;
+        score += shots;
+        shots = 0;
+  
+        sink_sound.play();
+        sinkmoji = random(sink_emojis);
+
+        scratch = false;
+  
+        Body.setPosition(ball, {x:width/2, y:6*height/8});
+        Body.setVelocity(ball, {x: 0, y:0})
+        shrink = 0;
+      } else if((a.id == stageElements[0].b.id && b.id == ballID) || (a.id == ballID && b.id == stageElements[0].b.id)) {
+        pool_sound.play();
+      } else {
+        wall_sound.play();
+      }
     } else {
       wall_sound.play();
     }
@@ -168,7 +202,7 @@ function draw() {
 
   if(sunk) {
     push();
-    fill(map(shrink, 0, 20, 255, 0));
+    fill(sink_c, map(shrink, 0, 20, 255, 0));
     circle(hole.position.x + random(-1,1), hole.position.y, 18);
     pop();
 
@@ -176,7 +210,12 @@ function draw() {
 
     if(shrink >= 20) {
       sunk = false;
-      loadStage();
+
+      if(!scratch) {
+        loadStage();
+        World.remove(world, stageElements[0].b);
+        stageElements = [];
+      }
     }
   } else if(end) {
     push();
@@ -240,12 +279,23 @@ function draw() {
 
   if(stage > 1) {
     for(i = 0; i < stageElements.length; i++) {
-      push();
-      translate(stageElements[i].b.position.x, stageElements[i].b.position.y);
-      rotate(stageElements[i].angle);
-      rectMode(CENTER);
-      rect(0, 0, stageElements[i].w, stageElements[i].h, 5, 5, 5, 5);
-      pop();
+      if(stageElements[i].type == "block") {
+        push();
+        translate(stageElements[i].b.position.x, stageElements[i].b.position.y);
+        rotate(stageElements[i].angle);
+        rectMode(CENTER);
+        rect(0, 0, stageElements[i].w, stageElements[i].h, 5, 5, 5, 5);
+        pop();
+      } else if(stageElements[i].type == "ball") {
+        if(stage != 4 || sunk != true || scratch != false) {
+          push();
+          translate(stageElements[i].b.position.x, stageElements[i].b.position.y);
+          rectMode(CENTER);
+          fill(stageElements[i].c);
+          circle(0, 0, 30);
+          pop();
+        }
+      }
     }
   }
 
@@ -289,7 +339,7 @@ function draw() {
 
   push();
   fill(10);
-  textSize(22);
+  textSize(25);
   text(stage_text, 20, 7*height/8, width - 40, height/8 - 10);
   pop();
 }
@@ -343,7 +393,7 @@ function loadStage() {
   stage++
   if(stage == 1) { 
     world.gravity.y = 0;
-    stage_text = "Welcome to Annoying Golf!  The controls are simple: Make noise to aim and tap to hit.";
+    stage_text = "Welcome to Annoying Golf!  The controls are simple: Be louder or quieter to aim and tap to hit.";
   } else if(stage == 2) {
     stage_text = "Phew! That was annoying. Let's add a few blocks."
 
@@ -351,6 +401,7 @@ function loadStage() {
       b: Bodies.rectangle(3*width/8 - 15, 10*height/16-25, 5*width/8, 50, {isStatic: true}),
       w: 5*width/8,
       h: 50,
+      type: "block"
     }
     stageElements.push(e1);
 
@@ -358,6 +409,7 @@ function loadStage() {
       b: Bodies.rectangle(5*width/8 + 15, 6*height/16-50, 5*width/8, 50, {isStatic: true}),
       w: 5*width/8,
       h: 50,
+      type: "block"
     }
     stageElements.push(e2);
 
@@ -366,9 +418,27 @@ function loadStage() {
 
   } else if(stage == 3) {
     stage_text = "Did you know they played golf on the moon?"
-  } else {
+  } else if(stage == 4) {
+    stage_text = "Sometimes I dabble in pool as well.  Red in the corner pocket."
+
+    removeBlocks();
+
+    Body.setPosition(hole, {x: 30, y:30});
+
+    e1 = {
+      b: Bodies.circle(width/2, height/2, 15, {restitution: 0.8, density: 0.0005}),
+      d: 20,
+      type: "ball",
+      c: color(196, 44, 39)
+    }
+
+    stageElements.push(e1);
+    World.add(world, e1.b);
+
+  }else {
     end = true;
     document.getElementById("restart_button").style.display = 'block';
+    resetHole();
 
     if(score > (stage-1)*4) {
       stage_text = "Thanks for playing!  Crummy score though.";
@@ -384,18 +454,23 @@ function loadStage() {
   }
 }
 
+function removeBlocks() {
+  for(i = 0; i < stageElements.length; i++) {
+    World.remove(world, stageElements[i].b);
+  }
+  stageElements = [];
+}
+
+function resetHole() {
+  Body.setPosition(hole, {x:width/2, y:height/6})
+}
+
 function restart() {
   end = false;
   stage = 0;
 
   Body.setPosition(ball, {x:width/2, y:6*height/8});
   Body.setVelocity(ball, {x: 0, y:0})
-
-  for(i = 0; i < stageElements.length; i++) {
-    World.remove(world, stageElements[i].b);
-  }
-
-  stageElements = [];
 
   score = 0;
   shots = 0;
