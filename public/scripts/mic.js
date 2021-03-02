@@ -1,6 +1,5 @@
 var freqBinDataArray; 
 var inited = false;
-var vib = false;
 
 function init() {
     document.getElementById("overlay").style.display = "none";
@@ -26,21 +25,6 @@ function init() {
             })
     } else {
         console.error('getUserMedia unsupported by browser');
-    }
-
-    navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
-
-    if(navigator.vibrate) {
-        vib = true;
-        console.log("Vibration supported");
-    } else {
-        console.log("Vibration not supported");
-    }
-
-    function setVibrate(s) {
-        if(vib) {
-            navigator.vibrate(s);
-        }
     }
 
     function beginRecording() {

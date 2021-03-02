@@ -8,7 +8,10 @@ let engine;
 let world;
 
 let archer;
+
 let sink_sound;
+let swing_sound;
+let wall_sound;
 
 let wallA;
 let wallB;
@@ -35,10 +38,13 @@ let moving = false;
 let sunk = false;
 let shrink = 0;
 let shot_fade = 41;
+let sinkmoji;
+let sink_emojis = ['🏌️', '👏', '⛳', '🔥', '😎'];
 
 let shots = 0;
-let stage = 1;
-let stage_text = "Welcome to Annoying Golf!  The controls are simple: Make noise to aim, tap to hit!";
+let score = 0;
+let stage = 0;
+let stage_text;
 
 let a_dim;
 let b_dim;
@@ -54,7 +60,13 @@ function preload() {
 
   soundFormats('mp3', 'ogg');
   sink_sound = loadSound('../assets/golf_sink.mp3');
-  sink_sound.setVolume(0.5);
+  sink_sound.setVolume(0.25);
+
+  swing_sound = loadSound('../assets/golf_swing.mp3');
+  swing_sound.setVolume(0.25);
+
+  wall_sound = loadSound('../assets/wall_hit.mp3')
+  wall_sound.setVolume(0.25);
 }
 
 function setup() {
@@ -90,7 +102,7 @@ function setup() {
   wallD = Bodies.rectangle(width-10+b_dim.w*50, 7*height/16 - 10, d_dim.w*100, d_dim.h, { isStatic: true});
 
   ball = Bodies.circle(width/2, 6*height/8, 10, {restitution: 0.4});
-  hole = Bodies.circle(width/2, height/6, 4, {isStatic: true, isSensor: false});
+  hole = Bodies.circle(width/2, height/6, 5, {isStatic: true, isSensor: false});
 
   ballID = ball.id;
   holeID = hole.id;
@@ -109,13 +121,17 @@ function setup() {
     if((a.id == ballID && b.id == holeID) || (a.id == holeID && b.id == ballID)) {
       sunk = true;
       shot_fade = 0;
+      score += shots;
       shots = 0;
 
       sink_sound.play();
+      sinkmoji = random(sink_emojis);
 
       Body.setPosition(ball, {x:width/2, y:6*height/8});
       Body.setVelocity(ball, {x: 0, y:0})
       shrink = 0;
+    } else {
+      wall_sound.play();
     }
   });
 
@@ -134,15 +150,16 @@ function draw() {
 
   push();
   fill(255, 50);
-  textSize(width*1.85);
-  text(shots, 0, 4*height/6);
+  textAlign(CENTER);
+  textSize(width);
+  text(shots, width/2, height/2 + 50);
   pop();
 
   push();
   translate(hole.position.x, hole.position.y);
   rotate(hole.angle);
   rectMode(CENTER);
-  fill(10);
+  fill(0, 43, 12);
   circle(0, 0, 30);
   pop();
 
@@ -172,9 +189,10 @@ function draw() {
     let p = map(shot_fade, 0, 40, 0, TWO_PI);
     let c = cos(p);
     fill(10, map(c, -1, 1, 255, 0));
-    textSize(25);
-    rectMode(CENTER);
-    text("Nice shot!", hole.position.x-width/7, hole.position.y-height/30-shot_fade);
+    textSize(50);
+    textAlign(CENTER);
+    textFont('Helvetica')
+    text(sinkmoji, hole.position.x, hole.position.y-shot_fade-30);
     pop();
 
     shot_fade++;
@@ -236,6 +254,7 @@ function draw() {
 
       push();
       stroke(0);
+      strokeWeight(2);
       translate(ball.position.x, ball.position.y);
 
       let a = getAngle();
@@ -259,7 +278,7 @@ function draw() {
   push();
   fill(10);
   textSize(22);
-  text(stage_text, 20, 7*height/8 + 5, width - 40, height/8 - 10);
+  text(stage_text, 20, 7*height/8, width - 40, height/8 - 10);
   pop();
 }
 
@@ -288,7 +307,7 @@ function hit(a) {
   //console.log('hit power: ', p);
   let p = 0.01;
   Body.applyForce(ball, ball.position, {x: cos(a) * p, y: sin(a) * p});
-  setVibrate(200);
+  swing_sound.play();
 }
 
 function getAngle() {
@@ -341,20 +360,20 @@ function touchStarted() {
 
 function loadStage() {
   stage++
-  if(stage == 1) {
-
+  if(stage == 1) { 
+    stage_text = "Welcome to Annoying Golf!  The controls are simple: Make noise to aim and tap to hit.";
   } else if(stage == 2) {
     stage_text = "Phew! That was annoying. Let's add a few blocks."
 
     e1 = {
-      b: Bodies.rectangle(3*width/8 - 15, 10*height/16, 5*width/8, 50, {isStatic: true}),
+      b: Bodies.rectangle(3*width/8 - 15, 10*height/16-25, 5*width/8, 50, {isStatic: true}),
       w: 5*width/8,
       h: 50,
     }
     stageElements.push(e1);
 
     e2 = {
-      b: Bodies.rectangle(5*width/8 + 15, 6*height/16, 5*width/8, 50, {isStatic: true}),
+      b: Bodies.rectangle(5*width/8 + 15, 6*height/16-50, 5*width/8, 50, {isStatic: true}),
       w: 5*width/8,
       h: 50,
     }
