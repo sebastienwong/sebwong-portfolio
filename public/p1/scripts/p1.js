@@ -401,7 +401,12 @@ function hit(a) {
   moving = true;
   shots++;
 
-  let p = 0.01;
+  let p;
+  if(stage == 3) {
+    p = 0.0125;
+  } else {
+    p = 0.01;
+  }
   Body.applyForce(ball, ball.position, {x: cos(a) * p, y: sin(a) * p});
   swing_sound.play();
 }

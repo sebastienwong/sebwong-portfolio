@@ -23,5 +23,5 @@ $("#src-p1").on("click", e => {
 })
 
 $("#det-p1").on("click", e => {
-    window.location.assign(`${URL}/p1/p0_visual_summary/index.html`);
+    window.location.assign(`${URL}/p1/p1_visual_summary/index.html`);
 });
