@@ -355,6 +355,8 @@ function draw() {
       let a = getAngle();
       rotate(a);
       line(0, 0, 50, 0);
+      line(50, 0, 45, -5);
+      line(50, 0, 45, 5);
       pop();
 
       push();
