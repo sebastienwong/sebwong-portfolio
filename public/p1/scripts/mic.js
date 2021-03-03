@@ -2,6 +2,7 @@ var freqBinDataArray;
 var inited = false;
 
 function init() {
+    swing_sound.play();
     document.getElementById("overlay").style.display = "none";
     inited = true;
     var audioContext = new(window.AudioContext || window.webkitAudioContext)();

@@ -2,7 +2,7 @@ const URL = location.origin; // root domain
 
 // redirects
 $("#go-p0").on("click", e => {
-    window.location.assign(`${URL}/pages/p0.html`);
+    window.location.assign(`${URL}/p0/pages/p0.html`);
 });
 
 $("#src-p0").on("click", e => {
@@ -10,10 +10,10 @@ $("#src-p0").on("click", e => {
 })
 
 $("#det-p0").on("click", e => {
-    window.location.assign(`${URL}/p0_visual_summary/index.html`);
+    window.location.assign(`${URL}/p0/p0_visual_summary/index.html`);
 });
 
 
 $("#go-p1").on("click", e => {
-    window.location.assign(`${URL}/pages/p1.html`);
+    window.location.assign(`${URL}/p1/pages/p1.html`);
 });
