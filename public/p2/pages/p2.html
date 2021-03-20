@@ -1,18 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content="Project 0." />
-        <title>p2</title>    
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Describe this page." />
+    <title>Tutorial 6</title>
+  </head>
+  <body>
+  <div>
+    <video id="localVideo" autoplay muted style="width:40%;"></video>
+    <video id="remoteVideo" autoplay style="width:40%;"></video>
+  </div>
+  <div>
+    <button id="btn-client1">Connect as Client1</button>
+    <button id="btn-client2">Connect as Client2</button>
+  </div>
 
-        <script src="/socket.io/socket.io.js"></script>
-        
-    </head>
-    <body>
-        <div id="video-holder"></div>
-    </body>
-    <footer>
-        <script src="../scripts/p2.js"></script>
-    </footer>
+    <div>
+        <button id="btn-call">Call</button>
+    </div>
+    <div id="msgDiv"></div>
+    
+  </body>
+  <footer></footer>
+
+  <!-- Scripts-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="../scripts/p2.js"> </script>
 </html>
