@@ -8,6 +8,11 @@ var theInput = $("#msgInput");
 var callBtn = $("#btn-call");
 var msgDiv = $("#msgDiv");
 
+
+var hiBtn = $("#btn-hi");
+
+var client = 0;
+
 var localStream;
 var peerConnection;
 var serverConnection;
@@ -31,24 +36,41 @@ const MessageType = {
     SERVER_INFO: 0,
     CLIENT1: 1,
     CLIENT2: 2,
-    CALL_REQUEST: 3,
+    CALL_REQUEST: 3
 };
 
 btn1.on("click", () => {
     getWebcam();
     btn2.prop("disabled", true);
-    destination = "wss://" + location.host + "/client1";
+    destination = "ws://" + location.host + "/client1";
     serverConnection = new WebSocket(destination);
     serverConnection.onmessage = handleMessage;
+
+    client = 1;
 });
 
 btn2.on("click", () => {
     getWebcam();
     btn1.prop("disabled", true);
-    destination = "wss://" + location.host + "/client2";
+    destination = "ws://" + location.host + "/client2";
     serverConnection = new WebSocket(destination);
     serverConnection.onmessage = handleMessage;
+
+    client = 2;
 });
+
+hiBtn.on("click", () => {
+    console.log("hi btn pressed");
+    console.log(peerConnection);
+    if(peerConnection) {
+        peerConnection.send(
+            JSON.stringify({
+                type: MessageType.CLIENT1,
+                message: "Hello there client 2"
+            })
+        )
+    }
+})
 
 callBtn.on("click", () => {
     start(true);
@@ -131,10 +153,16 @@ function handleMessage(mEvent) {
 
             // Message came from Client 1, Handle as Client2
         case MessageType.CLIENT1:
+            if(client == 2) {
+                msgDiv.html(msg.message);
+            }
             break;
 
             // Message came from Client 2, Handle as Client1
         case MessageType.CLIENT2:
+            if(client == 1) {
+                msgDiv.html(msg.message);
+            }
             break;
 
         case MessageType.CALL_REQUEST:
@@ -169,4 +197,4 @@ function handleMessage(mEvent) {
 
 function errorHandler(error) {
     console.error(error);
-}
+}    

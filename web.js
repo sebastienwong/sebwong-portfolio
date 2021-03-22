@@ -11,7 +11,8 @@ const MessageType = {
     SERVER_INFO: 0,
     CLIENT1: 1,
     CLIENT2: 2,
-    CALL_REQUEST: 3
+    CALL_REQUEST: 3,
+    HI: 4
 };
 
 var wsServer = new ws.Server({ noServer: true });
