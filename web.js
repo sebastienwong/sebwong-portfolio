@@ -12,7 +12,7 @@ const MessageType = {
     CLIENT1: 1,
     CLIENT2: 2,
     CALL_REQUEST: 3,
-    HI: 4
+    INTERACTION: 4
 };
 
 var wsServer = new ws.Server({ noServer: true });
@@ -52,7 +52,7 @@ wsServer.on("connection", (socket, request) => {
                 socket.send(
                     JSON.stringify({
                         type: MessageType.SERVER_INFO,
-                        message: "Connected to server. Waiting for peer..."
+                        message: "You can try calling if Rhys & Lora are connected"
                     })
                 );
             } else {
@@ -67,7 +67,7 @@ wsServer.on("connection", (socket, request) => {
                 socket.send(
                     JSON.stringify({
                         type: MessageType.SERVER_INFO,
-                        message: "Connected to server. Waiting for peer..."
+                        message: "You can try calling if Oma & Opa are connected"
                     })
                 );
             } else {
@@ -94,7 +94,7 @@ wsServer.on("connection", (socket, request) => {
                     clients.client1.send(
                         JSON.stringify({
                             type: MessageType.SERVER_INFO,
-                            message: "Waiting for Client2 to connect..."
+                            message: "Waiting for Rhys & Lora to connect..."
                         })
                     );
                 }
@@ -109,7 +109,7 @@ wsServer.on("connection", (socket, request) => {
                     clients.client2.send(
                         JSON.stringify({
                             type: MessageType.SERVER_INFO,
-                            message: "Waiting for Client1 to connect..."
+                            message: "Waiting for Oma & Opa to connect..."
                         })
                     );
                 }

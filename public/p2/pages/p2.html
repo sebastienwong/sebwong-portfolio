@@ -4,24 +4,33 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Describe this page." />
+
+    <link href="../stylesheets/p2.css" rel="stylesheet" />
     <title>Tutorial 6</title>
   </head>
   <body>
-    <div>
-      <video id="localVideo" autoplay muted style="width:40%;"></video>
-      <video id="remoteVideo" autoplay style="width:40%;"></video>
-    </div>
-    <div>
-      <button id="btn-client1">Connect as Client1</button>
-      <button id="btn-client2">Connect as Client2</button>
+    
+    <div id="join-wrapper">
+      <h1>Hi!  Who are you?</h1>
+      <div id="join-button-wrapper">
+        <button class="join-button" id="btn-client1">Oma & Opa</button>
+        <button class="join-button" id="btn-client2">Rhys & Lora</button>
+      </div>
     </div>
 
-    <div>
-        <button id="btn-call">Call</button>
-        <button id="btn-hi">Say Hi</button>
+    <div id="main-wrapper" style="display: none;">
+      <div id="status-wrapper">
+        <h1 id="status">You're connected!</h1>
+        <h2 id="msgDiv"></h2>
+        <button class="join-button" id="btn-call">Call</button>
+      </div>
+      <video id="remoteVideo" autoplay></video>
+      <h1 id="interaction" style="display: none;">Hello World</h1>
+      <video id="localVideo" style="display: none;" autoplay muted></video>
+      <div id="control-panel" style="display: none;">
+        <button class="join-button" id="btn-hi">Say Hi</button>
+      </div>
     </div>
-    <div id="msgDiv"></div>
-    
   </body>
   <footer></footer>
 

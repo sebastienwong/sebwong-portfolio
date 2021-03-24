@@ -36,7 +36,8 @@ const MessageType = {
     SERVER_INFO: 0,
     CLIENT1: 1,
     CLIENT2: 2,
-    CALL_REQUEST: 3
+    CALL_REQUEST: 3,
+    INTERACTION: 4
 };
 
 btn1.on("click", () => {
@@ -47,6 +48,7 @@ btn1.on("click", () => {
     serverConnection.onmessage = handleMessage;
 
     client = 1;
+    mainScreen();
 });
 
 btn2.on("click", () => {
@@ -57,16 +59,17 @@ btn2.on("click", () => {
     serverConnection.onmessage = handleMessage;
 
     client = 2;
+    mainScreen();
 });
 
 hiBtn.on("click", () => {
     console.log("hi btn pressed");
     console.log(peerConnection);
     if(peerConnection) {
-        peerConnection.send(
+        serverConnection.send(
             JSON.stringify({
-                type: MessageType.CLIENT1,
-                message: "Hello there client 2"
+                type: MessageType.INTERACTION,
+                message: "Hi Rhys!"
             })
         )
     }
@@ -74,6 +77,7 @@ hiBtn.on("click", () => {
 
 callBtn.on("click", () => {
     start(true);
+    call();
 });
 
 function getWebcam() {
@@ -86,6 +90,7 @@ function getWebcam() {
                 // success
                 localStream = stream;
                 localVid.prop("srcObject", stream);
+                localVid.css("display", "block");
             },
             (error) => {
                 // error
@@ -139,7 +144,10 @@ function createdDescription(description) {
 
 function gotRemoteStream(event) {
     console.log("got remote stream");
+    $('#status-wrapper').css("display", "none");
+    if(client == 1) { $('#control-panel').css("display", "block"); }
     remoteVid.prop("srcObject", event.streams[0]);
+    remoteVid.css("display", "block");
     msgDiv.html("Connected to peer.");
 }
 
@@ -190,6 +198,16 @@ function handleMessage(mEvent) {
                     .addIceCandidate(new RTCIceCandidate(msg.ice))
                     .catch(errorHandler);
             }
+            break;
+        case MessageType.INTERACTION:
+            if(client == 2) {
+                $('#interaction').css("display", "block");
+                $('#interaction').html(msg.message);
+                setTimeout(function () {
+                    $('#interaction').css("display", "none");
+                }, 5000);
+            }
+            break;
         default:
             break;
     }
@@ -197,4 +215,15 @@ function handleMessage(mEvent) {
 
 function errorHandler(error) {
     console.error(error);
-}    
+}
+
+
+function mainScreen() {
+    $('#join-wrapper').css("display", "none");
+    $('#main-wrapper').css("display", "grid");
+    remoteVid.css("display", "none");
+}
+
+function call() {
+    //$('#remote-video-wrapper').css("display", "block");
+}
