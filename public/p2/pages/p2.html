@@ -9,12 +9,11 @@
     <title>Tutorial 6</title>
   </head>
   <body>
-    
     <div id="join-wrapper">
-      <h1>Hi!  Who are you?</h1>
+      <h1>Hi, who are you?</h1>
       <div id="join-button-wrapper">
-        <button class="join-button" id="btn-client1">Oma & Opa</button>
-        <button class="join-button" id="btn-client2">Rhys & Lora</button>
+        <button class="join-button join-button-hover" id="btn-client1">Oma & Opa</button>
+        <button class="join-button join-button-hover" id="btn-client2">Rhys & Lora</button>
       </div>
     </div>
 
@@ -22,13 +21,19 @@
       <div id="status-wrapper">
         <h1 id="status">You're connected!</h1>
         <h2 id="msgDiv"></h2>
-        <button class="join-button" id="btn-call">Call</button>
+        <button class="join-button join-button-hover" id="btn-call">Call</button>
       </div>
-      <video id="remoteVideo" autoplay></video>
-      <h1 id="interaction" style="display: none;">Hello World</h1>
-      <video id="localVideo" style="display: none;" autoplay muted></video>
       <div id="control-panel" style="display: none;">
-        <button class="join-button" id="btn-hi">Say Hi</button>
+        <button class="join-button join-button-hover" id="btn-hi">Say Hi</button>
+        <button class="join-button join-button-hover" id="btn-pkb">Peek-a-boo!</button>
+        <button class="join-button join-button-hover" id="btn-pir">Pirate!</button>
+      </div>
+      <div id="video-wrapper">
+        <div id="remote-wrapper">
+          <video id="remoteVideo" autoplay></video>
+        </div>
+        <h1 id="interaction" style="display: none;">Hello World</h1>
+        <video id="localVideo" class="large-local" style="display: none;" autoplay muted></video>
       </div>
     </div>
   </body>
@@ -36,5 +41,10 @@
 
   <!-- Scripts-->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@1.0.0"> </script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js"></script>
   <script src="../scripts/p2.js"> </script>
 </html>
