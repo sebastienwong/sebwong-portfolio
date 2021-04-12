@@ -30,3 +30,12 @@ $("#det-p1").on("click", e => {
 $("#go-p2").on("click", e => {
     window.location.assign(`${URL}/p2/pages/p2.html`);
 });
+
+$("#src-p2").on("click", e => {
+    window.open('https://github.com/sebastienwong/sebwong-portfolio/tree/master/public/p2');
+})
+
+$("#det-p2").on("click", e => {
+    window.location.assign(`${URL}/p2/p2_visual_summary/index.html`);
+});
+

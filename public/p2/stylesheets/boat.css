@@ -7,7 +7,7 @@
   width: 100px;
   height: 100%;
   left: -10%;
-  animation: doDrift 32s infinite 5s;
+  animation: doDrift 32s infinite 3s;
 }
 
 .small {
