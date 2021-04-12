@@ -6,11 +6,22 @@
     <meta name="description" content="Describe this page." />
 
     <link href="../stylesheets/p2.css" rel="stylesheet" />
-    <title>Tutorial 6</title>
+    <link href="../stylesheets/boat.css" rel="stylesheet" />
+    <title>HALLO</title>
   </head>
   <body>
     <div id="join-wrapper">
-      <h1>Hi, who are you?</h1>
+      <div class="box-drift small">
+        <div class="box-bob">
+          <div class="box-pitch">
+            <div class="left-sail"></div>
+            <div class="right-sail"></div>
+            <div class="hull"></div>
+          </div>
+        </div>
+      </div>
+      <h1 id="join-title">HALLO</h1>
+      <h2>Who are you?</h2>
       <div id="join-button-wrapper">
         <button class="join-button join-button-hover" id="btn-client1">Oma & Opa</button>
         <button class="join-button join-button-hover" id="btn-client2">Rhys & Lora</button>
@@ -24,17 +35,42 @@
         <button class="join-button join-button-hover" id="btn-call">Call</button>
       </div>
       <div id="control-panel" style="display: none;">
-        <button class="join-button join-button-hover" id="btn-hi">Say Hi</button>
-        <button class="join-button join-button-hover" id="btn-pkb">Peek-a-boo!</button>
-        <button class="join-button join-button-hover" id="btn-pir">Pirate!</button>
+        <button class="control-button join-button-hover" id="btn-hi" style="display: none;">Say Hi</button>
+        <div class="button-holder">
+          <button class="control-button join-button-hover" id="btn-pkb">Peek-a-boo!</button>
+          <h2 id="pkb-msg"></h2>
+        </div>
+        <div class="button-holder">
+          <button class="control-button join-button-hover" id="btn-pir">Pirate mode!</button>
+          <h2 id="pir-msg"></h2>
+        </div>
+        <div class="button-holder">
+          <button class="control-button join-button-hover" id="btn-rhys">Hey Rhys!</button>
+        </div>
       </div>
       <div id="video-wrapper">
         <div id="remote-wrapper">
           <video id="remoteVideo" autoplay></video>
         </div>
         <h1 id="interaction" style="display: none;">Hello World</h1>
-        <video id="localVideo" class="large-local" style="display: none;" autoplay muted></video>
+        <div id="local-wrapper" class="large-local">
+          <video id="localVideo" style="display: none;" autoplay muted></video>
+        </div>
       </div>
+
+      <div id="spotlight"></div>
+
+      <div class="box-drift big" id="big-boat" style="display: none;">
+        <div class="box-bob">
+          <div class="box-pitch">
+            <div class="left-sail"></div>
+            <div class="right-sail"></div>
+            <div class="hull"></div>
+          </div>
+        </div>
+      </div>
+
+      <canvas id="confetti"></canvas>
     </div>
   </body>
   <footer></footer>
@@ -46,5 +82,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@1.0.0"> </script>
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
   <script src="../scripts/p2.js"> </script>
 </html>

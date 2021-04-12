@@ -12,6 +12,7 @@ var msgDiv = $("#msgDiv");
 var hiBtn = $("#btn-hi");
 var pkbBtn = $("#btn-pkb");
 var pirBtn = $("#btn-pir");
+var rhysBtn = $("#btn-rhys");
 
 var client = 0;
 
@@ -19,6 +20,7 @@ var peekaboo_clicked = false;
 var peekaboo_ready = false;
 
 var pirate_clicked = false;
+var toggle_pirate = false;
 
 var interacting = false;
 
@@ -36,6 +38,37 @@ var tada = new Howl({
     src: ['../assets/tada.mp3'],
     volume: 0.25
 });
+
+var pirate_music = new Howl({
+    src: ['../assets/pirate_music.mp3'],
+    volume: 0.05,
+    loop: true
+});
+
+var bell = new Howl({
+    src: ['../assets/bell.mp3'],
+    volume: 0.25
+});
+var uke = new Howl({
+    src: ['../assets/uke.mp3'],
+    volume: 0.25
+});
+var squeak = new Howl({
+    src: ['../assets/squeak.mp3'],
+    volume: 0.25
+});
+var rattle = new Howl({
+    src: ['../assets/rattle.mp3'],
+    volume: 0.25
+});
+
+var rhys_sounds = [bell, uke, squeak, rattle];
+
+
+var myConfetti = confetti.create(document.getElementById('confetti'), {
+    resize: true
+});
+
 
 const peerConnectionConfig = {
     iceServers: [
@@ -60,7 +93,9 @@ const MessageType = {
     INTERACTION: 4,
     INTERACTION_COMPLETE: 5,
     PEEK: 6,
-    BOO: 7
+    BOO: 7,
+    PIRATE: 8,
+    RHYS: 9
 };
 
 btn1.on("click", () => {
@@ -72,6 +107,7 @@ btn1.on("click", () => {
 
     client = 1;
     mainScreen();
+    $('#status').html("Welcome Oma & Opa!");
 });
 
 btn2.on("click", () => {
@@ -83,19 +119,11 @@ btn2.on("click", () => {
 
     client = 2;
     mainScreen();
+    $('#status').html("Welcome Rhys & Lora!");
 });
 
 hiBtn.on("click", () => {
-    console.log("hi btn pressed");
-    console.log(peerConnection);
-    if(peerConnection) {
-        serverConnection.send(
-            JSON.stringify({
-                type: MessageType.INTERACTION,
-                message: "Hi Rhys!"
-            })
-        )
-    }
+    console.log('hi btn pressed')
 })
 
 pkbBtn.on("click", () => {
@@ -108,7 +136,20 @@ pkbBtn.on("click", () => {
 pirBtn.on("click", () => {
     console.log("pir btn pressed");
     pirate_clicked = !pirate_clicked;
+    togglePirate();
     console.log(pirate_clicked);
+    if(pirate_clicked) {
+        pirate_music.play();
+        $('#pir-msg').html("Pirate mode on!");
+    } else {
+        pirate_music.stop();
+        $('#pir-msg').html("");
+    }
+})
+
+rhysBtn.on("click", () => {
+    console.log("rhys btn pressed");
+    sendRhys();
 })
 
 function sendPeek() {
@@ -120,6 +161,7 @@ function sendPeek() {
             })
         )
         peekaboo_clicked = false;
+        drumroll.play();
     }
 }
 
@@ -132,6 +174,34 @@ function sendBoo() {
             })
         )
         peekaboo_ready = false;
+        drumroll.stop();
+        tada.play();
+    }
+}
+
+function togglePirate() {
+    if(peerConnection) {
+        serverConnection.send(
+            JSON.stringify({
+                type: MessageType.PIRATE,
+                message: pirate_clicked
+            })
+        )
+    }
+}
+
+function sendRhys() {
+    var r = Math.floor(Math.random() * 4);
+    console.log(r);
+    if(peerConnection) {
+        serverConnection.send(
+            JSON.stringify({
+                type: MessageType.RHYS,
+                message: r
+            })
+        );
+
+        rhys_sounds[r].play();
     }
 }
 
@@ -173,8 +243,8 @@ function start(isCaller) {
     peerConnection.ontrack = gotRemoteStream;
     peerConnection.addStream(localStream);
 
-    $('#localVideo').removeClass('large-local');
-    $('#localVideo').addClass('mini-local');
+    $('#local-wrapper').removeClass('large-local');
+    $('#local-wrapper').addClass('mini-local');
 
     if (isCaller) {
         peerConnection.createOffer().then(createdDescription).catch(errorHandler); // using chained Promises for async
@@ -298,6 +368,10 @@ function handleMessage(mEvent) {
                 pkbBtn.addClass('join-button-hover');
                 pkbBtn.prop('disabled', false);
                 drumroll.play();
+                $('#spotlight').css({
+                    'visibility': 'visible',
+                    'opacity': '1'
+                });
             }
             break;
         case MessageType.BOO:
@@ -305,15 +379,46 @@ function handleMessage(mEvent) {
                 console.log(msg.message + " received");
                 pkbBtn.addClass('join-button-hover');
                 pkbBtn.prop('disabled', false);
-                drumroll.stop();
-                tada.play();
-
                 serverConnection.send(
                     JSON.stringify({
                         type: MessageType.INTERACTION_COMPLETE,
                         message: "peekaboo"
                     })
-                )
+                );
+                drumroll.stop();
+                tada.play();
+                $('#spotlight').css({
+                    'visibility': 'hidden',
+                    'opacity': '0'
+                });
+            }
+
+            break;
+        case MessageType.PIRATE:
+            if(client == 2) {
+                console.log("pirate toggle received");
+                toggle_pirate = msg.message;
+
+                if(toggle_pirate) {
+                    drawHat();
+                    pirate_music.play();
+                    $('#big-boat').css({
+                        "display": "block"
+                    });
+                } else {
+                    pirate_music.stop();
+                    $('#big-boat').css({
+                        "display": "none"
+                    });
+                }
+            }
+            break;
+        case MessageType.RHYS:
+            if(client == 2) {
+                console.log("rhys sound received");
+                rhys_sounds[msg.message].play();
+
+                shootConfetti(0);
             }
             break;
         default:
@@ -330,6 +435,42 @@ function mainScreen() {
     $('#join-wrapper').css("display", "none");
     $('#main-wrapper').css("display", "flex");
     $('#remote-wrapper').css("display", "none");
+}
+
+
+function shootConfetti(shots) {
+    let rx1 = Math.random() * (0.3 - 0.1) + 0.1;
+    let rx2 = Math.random() * (0.9 - 0.7) + 0.7;
+
+    myConfetti({
+        particleCount: 300,
+        spread: 360,
+        startVelocity: 30,
+        ticks: 500,
+        scalar: 2,
+        origin: {
+            x: rx1,
+            y: Math.random() - 0.2
+        }
+    })
+
+    myConfetti({
+        particleCount: 300,
+        spread: 360,
+        startVelocity: 30,
+        ticks: 500,
+        scalar: 2,
+        origin: {
+            x: rx2,
+            y: Math.random() - 0.2
+        }
+    })
+
+    setTimeout(function() {
+        if(shots < 5) {
+            shootConfetti(shots + 1);
+        }
+    }, 1000);
 }
 
 
@@ -398,7 +539,7 @@ function predictWebcam() {
 
 
 var face_model = undefined;
-var children = [];
+var local_children = [];
 
 blazeface.load().then((loaded_model) => {
     face_model = loaded_model;
@@ -407,59 +548,102 @@ blazeface.load().then((loaded_model) => {
 function detectFaces() {
     face_model.estimateFaces(localVid, false).then((predictions) => {
         if(predictions.length > 0) {
+            for(let i = 0; i < local_children.length; i++) {
+                document.getElementById('local-wrapper').removeChild(local_children[i]);
+            }
+            local_children.splice(0);
+
             for (let i = 0; i < predictions.length; i++) {
                 if(predictions[i] && predictions[i].probability > 0.995) {
 
                     if(peekaboo_clicked) {
                         console.log("hide your face!");
+                        $('#pkb-msg').html("Hide your face!");
                     }
                     if(peekaboo_ready) {
                         sendBoo();
                     }
 
-
                     if(pirate_clicked) {
-                        for(let i = 0; i < children.length; i++) {
-                            document.getElementById('remote-wrapper').removeChild(children[i]);
-                        }
-                        children.splice(0);
-                
                         const hat = document.createElement("img");
                         hat.src = "../assets/hat.png";
                         hat.setAttribute("class", "hat");
                         hat.style = 
-                            "right: " + (Math.round(predictions[i].topLeft[0]) + 100) + "px; " +
-                            "top: " + (Math.round(predictions[i].topLeft[1]) - 75) + "px; " +
-                            "width: " + (Math.round(predictions[i].bottomRight[0] - predictions[i].topLeft[0]) + 200) + "px;";
+                            // "right: " + (Math.round(predictions[i].topLeft[0]) + 100) + "px; " +
+                            // "top: " + (Math.round(predictions[i].topLeft[1]) - 50) + "px; " +
+                            // "width: " + (Math.round(predictions[i].bottomRight[0] - predictions[i].topLeft[0]) + 200) + "px;";
+                            "right: " + (predictions[i].topLeft[0] - 50) + "px; " +
+                            "top: " + (predictions[i].topLeft[1] - 125) + "px; " +
+                            "width: " + (predictions[i].bottomRight[0] - predictions[i].topLeft[0] + 100) + "px;";
         
-                        document.getElementById('remote-wrapper').appendChild(hat);
-                        children.push(hat);
+                        document.getElementById('local-wrapper').appendChild(hat);
+                        local_children.push(hat);
                     } else {
-                        for(let i = 0; i < children.length; i++) {
-                            document.getElementById('remote-wrapper').removeChild(children[i]);
+                        for(let i = 0; i < local_children.length; i++) {
+                            document.getElementById('local-wrapper').removeChild(local_children[i]);
                         }
-                        children = []
+                        local_children = []
                     }
                 } else {
                     if(peekaboo_clicked) {
                         peekaboo_ready = true;
                         sendPeek();
+                        $('#pkb-msg').html("");
                     }
-
-                    for(let i = 0; i < children.length; i++) {
-                        document.getElementById('remote-wrapper').removeChild(children[i]);
-                    }
-                    children = []
                 }
             }
         } else {
-            for(let i = 0; i < children.length; i++) {
-                document.getElementById('remote-wrapper').removeChild(children[i]);
+            for(let i = 0; i < local_children.length; i++) {
+                document.getElementById('local-wrapper').removeChild(local_children[i]);
             }
-            children = []
+            local_children = []
         }
 
         window.requestAnimationFrame(detectFaces);
+    });
+}
+
+
+var remote_children = [];
+
+function drawHat() {
+    face_model.estimateFaces(document.getElementById("remoteVideo"), false).then((predictions) => {
+        if(predictions.length > 0) {
+            for(let i = 0; i < remote_children.length; i++) {
+                document.getElementById('remote-wrapper').removeChild(remote_children[i]);
+            }
+            remote_children.splice(0);
+
+            for (let i = 0; i < predictions.length; i++) {
+                if(predictions[i] && predictions[i].probability > 0.990) {
+                    
+                    const hat = document.createElement("img");
+                    hat.src = "../assets/hat.png";
+                    hat.setAttribute("class", "hat");
+                    hat.style = 
+                        "right: " + (predictions[i].topLeft[0] - 50) + "px; " +
+                        "top: " + (predictions[i].topLeft[1] - 125) + "px; " +
+                        "width: " + (predictions[i].bottomRight[0] - predictions[i].topLeft[0] + 100) + "px;";
+    
+                    document.getElementById('remote-wrapper').appendChild(hat);
+                    remote_children.push(hat);
+                }
+            }
+        } else {
+            for(let i = 0; i < remote_children.length; i++) {
+                document.getElementById('remote-wrapper').removeChild(remote_children[i]);
+            }
+            remote_children = []
+        }
+
+        if(toggle_pirate) {
+            window.requestAnimationFrame(drawHat);
+        } else {
+            for(let i = 0; i < remote_children.length; i++) {
+                document.getElementById('remote-wrapper').removeChild(remote_children[i]);
+            }
+            remote_children = []
+        }
     });
 }
 
