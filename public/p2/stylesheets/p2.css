@@ -60,7 +60,7 @@ h2 {
   color: rgb(161, 239, 255);
 }
 
-.join-button:disabled {
+.control-button:disabled {
   cursor: default;
   border: 5px solid rgba(35, 83, 135, 0.25);
   color: rgba(35, 83, 135, 0.25);

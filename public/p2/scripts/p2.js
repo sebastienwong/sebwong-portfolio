@@ -467,7 +467,7 @@ function shootConfetti(shots) {
     })
 
     setTimeout(function() {
-        if(shots < 5) {
+        if(shots < 1) {
             shootConfetti(shots + 1);
         }
     }, 1000);  
