@@ -59,26 +59,40 @@ html, body {
     opacity: 1;
 }
 
-#square {
-    width: 75px;
-    height: 75px;
+#circle3 {
+    height: 5em;
+    width: 5em;
     position: absolute;
-    background-color: #52796F;
     left: 30%;
-    top: 30%;
+    top: 10%;
+    border-radius: 50%;
+    background-color: #CAD2C5;
 
-    animation: spin 120s ease-in-out 0s infinite;
+    animation: floating1 5s ease 0s infinite;
 }
 
-#triangle {
-    width: 0;
-    height: 0;
+#circle4 {
+    height: 8em;
+    width: 8em;
     position: absolute;
-    border-left: 100px solid transparent;
-    border-right: 100px solid transparent;
-    border-bottom: 172px solid #84A98C;
+    left: 50%;
+    top: 30%;
+    border-radius: 50%;
+    background-color: #84A98C;
 
-    animation: float 1s linear 0s infinite;
+    animation: floating2 5s ease 0s infinite;
+}
+
+#circle5 {
+    height: 11em;
+    width: 11em;
+    position: absolute;
+    left: 30%;
+    top: 60%;
+    border-radius: 50%;
+    background-color: #52796F;
+
+    animation: floating3 10s ease 0s infinite;
 }
 
 #scroll-wrapper {
@@ -133,16 +147,18 @@ html, body {
 #my-pic {
     width: 20em;
     height: 20em;
+
+    animation: floating3 10s ease 0s infinite;
 }
 
 #circle1 {
-    height: 3em;
-    width: 3em;
+    height: 4em;
+    width: 4em;
     position: absolute;
-    left: 20%;
-    top: 10%;
+    left: 30%;
+    top: -10%;
     border-radius: 50%;
-    background-color: #CAD2C5;
+    background-color: #84A98C;
 
     animation-name: floating1;
     animation-duration: 4s;
@@ -151,13 +167,13 @@ html, body {
 }
 
 #circle2 {
-    height: 4em;
-    width: 4em;
+    height: 8em;
+    width: 8em;
     position: absolute;
-    right: 20%;
-    bottom: 10%;
+    right: 25%;
+    bottom: -10%;
     border-radius: 50%;
-    background-color: #CAD2C5;
+    background-color: #52796F;
 
     animation-name: floating2;
     animation-duration: 4s;
@@ -214,6 +230,8 @@ html, body {
     position: relative;
     display: flex;
     align-items: center;
+
+    animation: floating3 10s ease 0s infinite;
 }
 
 .sr {
@@ -283,8 +301,9 @@ html, body {
 }
 
 .contact {
-    display: flex;
-    align-items: start;
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    grid-template-rows: 25% 25% 25% 25%;
     background-color: #84A98C;
     margin-bottom: 0;
 }
@@ -292,6 +311,55 @@ html, body {
 .contact-info {
     color: #2F3E46;
     font-weight: bold;
+}
+
+.contact-dec {
+    height: 100%;
+    position: relative;
+    grid-column-start: 3;
+    grid-column-end: 5;
+    grid-row-start: 1;
+    grid-row-end: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+}
+
+#circle6 {
+    height: 5em;
+    width: 5em;
+    position: absolute;
+    left: 30%;
+    top: 70%;
+    border-radius: 50%;
+    background-color: #52796F;
+
+    animation: floating1 5s ease 0s infinite;
+}
+
+#circle7 {
+    height: 8em;
+    width: 8em;
+    position: absolute;
+    left: 50%;
+    top: 45%;
+    border-radius: 50%;
+    background-color: #354F52;
+
+    animation: floating2 5s ease 0s infinite;
+}
+
+#circle8 {
+    height: 11em;
+    width: 11em;
+    position: absolute;
+    left: 20%;
+    top: 20%;
+    border-radius: 50%;
+    background-color: #2F3E46;
+
+    animation: floating3 10s ease 0s infinite;
 }
 
 #resume {
