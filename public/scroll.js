@@ -12,7 +12,6 @@ $(function() {
             triggerHook: 'onLeave'
         })
         .setPin(slides[i], {pushFollowers: false})
-        .addIndicators() // add indicators (requires plugin)
         .addTo(controller);
 
         slide_scenes.push(slide_scene);
@@ -31,7 +30,6 @@ $(function() {
         duration: '75%'
     })
     .setTween(about_timeline)
-    .addIndicators() // add indicators (requires plugin)
     .addTo(controller);
 
 
@@ -48,7 +46,6 @@ $(function() {
         duration: '75%'
     })
     .setTween(work_timeline)
-    .addIndicators() // add indicators (requires plugin)
     .addTo(controller);
 
     //slide_scenes[1].setTween("#about-dec", {opacity: 1});
