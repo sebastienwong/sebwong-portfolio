@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Describe this page." />
+    <title>Sebastien | Hallo</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display|Lato">
+
+    <!-- Scripts -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/animation.gsap.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.3/plugins/debug.addIndicators.js"></script>
+  </head>
+  <body>
+    <header id="header">
+      <h3 id="home" onclick="home()">Sebastien.</h3>
+      <div id="button-wrapper">
+        <a onclick="go()">Go</a>
+        <a href="https://github.com/sebastienwong/sebwong-portfolio/tree/master/public/p1" target="_blank">Source</a>
+      </div>
+    </header>
+    <div class="wrapper">
+      <h1 class="title">Annoying Golf</h1>
+      <p class="credit">
+        designed by Sebastien Wong
+      </p> 
+      <section class="content"> 
+        <div class="text-wrapper">
+          <h2 class="content-title">Wordless</h2>
+          <p class="content-info">
+            The prompts we we're given for this project was to design for mobile web-app, and to use wordless, sonic input.
+            My interpretation of this evolved in Annoying Golf. This is a golf game where you control the ball with the volume of your voice!
+            There are 6 stages to beat, each one a little more challenging (and annoying) than the last.
+          </p> 
+        </div>
+        <div class="media-wrapper">
+          <img class="phone-img" src="./assets/p1_ui_1.png">
+          <img class="phone-img" src="./assets/p1_ui_2.png">
+        </div>
+      </section>
+      <section class="content">
+        <div class="text-wrapper">
+          <h2 class="content-title">Demo</h2> 
+          <p class="content-info">
+            Using the volume of your voice to aim your golf ball, where the louder you are, the further to the right you can shoot.
+            The amount of shots you've taken is tracked per stage, and is tallied in the end to give you a final score.
+            <br><br>
+            This was made using p5.js and matter.js
+          </p>
+        </div>
+        <video class="phone-video" controls>
+          <source src="./assets/p1_video.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </section>
+      <section class="sketches">
+        <h2 class="content-title">Sketches</h2>
+        <div class="sketch-row">
+          <div class="sketch-wrapper s1">
+            <h3 class="sketch-info">Initial Brainstorm</h3>
+            <img class="sketch-img" src="./assets/sketches/IMG_3942.jpg">
+          </div>
+          <div class="sketch-wrapper s2">
+            <h3 class="sketch-info">Golf Idea</h3>
+            <img class="sketch-img" src="./assets/sketches/IMG_3943.jpg">
+          </div>
+          <div class="sketch-wrapper s3">
+            <h3 class="sketch-info">Burp Rater Idea</h3>
+            <img class="sketch-img" src="./assets/sketches/IMG_3952.jpg">
+          </div>
+        </div>
+        <div class="sketch-row">
+          <div class="sketch-wrapper s1">
+            <h3 class="sketch-info">Harmonizer Idea</h3>
+            <img class="sketch-img" src="./assets/sketches/IMG_3953.jpg">
+          </div>
+          <div class="sketch-wrapper s2">
+            <h3 class="sketch-info">Talking Sim Idea</h3>
+            <img class="sketch-img" src="./assets/sketches/IMG_3954.jpg">
+          </div>
+          <div class="sketch-wrapper s3">
+            <h3 class="sketch-info">Pancake Idea</h3>
+            <img class="sketch-img" src="./assets/sketches/IMG_3955.jpg">
+          </div>
+        </div>
+        <div class="sketch-row">
+          <div class="sketch-wrapper s1">
+            <h3 class="sketch-info">Some UI Designs</h3>
+            <img class="sketch-img" src="./assets/sketches/IMG_3944.jpg">
+          </div>
+          <div class="sketch-wrapper s2">
+            <h3 class="sketch-info">Some Level Designs</h3>
+            <img class="sketch-img" src="./assets/sketches/IMG_3945.jpg">
+          </div>
+          <div class="sketch-wrapper s3">
+            <h3 class="sketch-info">Some Game Design</h3>
+            <img class="sketch-img" src="./assets/sketches/IMG_3946.jpg">
+          </div>
+        </div>
+        <div class="sketch-row">
+          <div class="sketch-wrapper s1">
+            <h3 class="sketch-info">Finished UI Design</h3>
+            <img class="sketch-img" src="./assets/sketches/IMG_3947.jpg">
+          </div>
+          <div class="sketch-wrapper s2">
+            <h3 class="sketch-info">Even More Level Design</h3>
+            <img class="sketch-img" src="./assets/sketches/IMG_3948.jpg">
+          </div>
+          <div class="sketch-wrapper s3">
+            <h3 class="sketch-info">Level Tuning</h3>
+            <img class="sketch-img" src="./assets/sketches/IMG_3949.jpg">
+          </div>
+        </div>
+        <div class="sketch-row">
+          <div class="sketch-wrapper s1">
+            <h3 class="sketch-info">Final Level Design</h3>
+            <img class="sketch-img" src="./assets/sketches/IMG_3950.jpg">
+          </div>
+          <div class="sketch-wrapper s2">
+            <h3 class="sketch-info">Final Reflection</h3>
+            <img class="sketch-img" src="./assets/sketches/IMG_3951.jpg">
+          </div>
+        </div>
+      </section>
+    </div>
+    
+    <script src="scroll.js"></script>
+    <script src="home.js"></script>
+  </body>
+</html>

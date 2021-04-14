@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Describe this page." />
+    <title>Sebastien | HALLO</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display|Lato">
+
+    <!-- Scripts -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/animation.gsap.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.3/plugins/debug.addIndicators.js"></script>
+  </head>
+  <body>
+    <header id="header">
+      <h3 id="home" onclick="home()">Sebastien.</h3>
+      <div id="button-wrapper">
+        <a onclick="go()">Go</a>
+        <a href="https://github.com/sebastienwong/sebwong-portfolio/tree/master/public/p2" target="_blank">Source</a>
+      </div>
+    </header>
+    <div class="wrapper">
+      <h1 class="title">HALLO</h1>
+      <p class="credit">
+        designed by Sebastien Wong
+      </p> 
+      <section class="content"> 
+        <div class="text-wrapper">
+          <h2 class="content-title">Babies + Video</h2>
+          <p class="content-info">
+            The prompt we we're given for this project was to design for video-chat app that allowed for 
+            interactive calling between Rhys (a baby) and his grandparents (Oma & Oppa). 
+            I created HALLO, a simple video-chat app that lets Rhys and his grandparents see eachother, 
+            and gives the grandparents a few tools to help them have a more interactive and goofy experience.
+          </p> 
+        </div>
+        <img class="content-media" src="./assets/p2_ui.png">
+      </section>
+      <section class="content">
+        <div class="text-wrapper">
+          <h2 class="content-title">Demo</h2> 
+          <p class="content-info">
+            Oma and Oppa have three options of interactions they can send. 
+            A peek-a-boo interaction that uses tensorflow to detect a face and add some effects to peek-a-boo. 
+            A pirate interaction that gives them a pirate hat filter and plays some pirate-y music. 
+            And a attention interaction, which uses some of Rhys' favourite sounds and some flashy effects to get his attention if he gets distracted.
+            <br><br>
+            This was made using WebRTC, tensorflow, and howler.js
+          </p>
+        </div>
+        <video class="content-media" controls>
+          <source src="./assets/p2_video.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </section>
+      <section class="sketches">
+        <h2 class="content-title">Sketches</h2>
+        <div class="sketch-row">
+          <div class="sketch-wrapper s1">
+            <h3 class="sketch-info">Initial Brainstorm</h3>
+            <img class="sketch-img" src="./assets/sketches/IMG_4056.jpg">
+          </div>
+          <div class="sketch-wrapper s2">
+            <h3 class="sketch-info">French Idea</h3>
+            <img class="sketch-img" src="./assets/sketches/IMG_4057.jpg">
+          </div>
+          <div class="sketch-wrapper s3">
+            <h3 class="sketch-info">Soundboard Idea</h3>
+            <img class="sketch-img" src="./assets/sketches/IMG_4058.jpg">
+          </div>
+        </div>
+        <div class="sketch-row">
+          <div class="sketch-wrapper s1">
+            <h3 class="sketch-info">Story Idea</h3>
+            <img class="sketch-img" src="./assets/sketches/IMG_4059.jpg">
+          </div>
+          <div class="sketch-wrapper s2">
+            <h3 class="sketch-info">AR Idea</h3>
+            <img class="sketch-img" src="./assets/sketches/IMG_4060.jpg">
+          </div>
+          <div class="sketch-wrapper s3">
+            <h3 class="sketch-info">Toy Creator Idea</h3>
+            <img class="sketch-img" src="./assets/sketches/IMG_4061.jpg">
+          </div>
+        </div>
+        <div class="sketch-row">
+          <div class="sketch-wrapper s1">
+            <h3 class="sketch-info">Games Idea</h3>
+            <img class="sketch-img" src="./assets/sketches/IMG_4062.jpg">
+          </div>
+          <div class="sketch-wrapper s2">
+            <h3 class="sketch-info">Filter Idea</h3>
+            <img class="sketch-img" src="./assets/sketches/IMG_4063.jpg">
+          </div>
+          <div class="sketch-wrapper s3">
+            <h3 class="sketch-info">Peekaboo Idea</h3>
+            <img class="sketch-img" src="./assets/sketches/IMG_4064.jpg">
+          </div>
+        </div>
+        <div class="sketch-row">
+          <div class="sketch-wrapper s1">
+            <h3 class="sketch-info">Karaoke Idea</h3>
+            <img class="sketch-img" src="./assets/sketches/IMG_4066.jpg">
+          </div>
+          <div class="sketch-wrapper s2">
+            <h3 class="sketch-info">Attention Grab Idea</h3>
+            <img class="sketch-img" src="./assets/sketches/IMG_4067.jpg">
+          </div>
+          <div class="sketch-wrapper s3">
+            <h3 class="sketch-info">The Plan</h3>
+            <img class="sketch-img" src="./assets/sketches/IMG_4068.jpg">
+          </div>
+        </div>
+        <div class="sketch-row">
+          <div class="sketch-wrapper s1">
+            <h3 class="sketch-info">Inspired Design</h3>
+            <img class="sketch-img" src="./assets/sketches/IMG_4069.jpg">
+          </div>
+          <div class="sketch-wrapper s2">
+            <h3 class="sketch-info">Layout</h3>
+            <img class="sketch-img" src="./assets/sketches/IMG_4070.jpg">
+          </div>
+          <div class="sketch-wrapper s3">
+            <h3 class="sketch-info">Peekaboo Design</h3>
+            <img class="sketch-img" src="./assets/sketches/IMG_4071.jpg">
+          </div>
+        </div>
+        <div class="sketch-row">
+          <div class="sketch-wrapper s1">
+            <h3 class="sketch-info">Pirate Mode Design</h3>
+            <img class="sketch-img" src="./assets/sketches/IMG_4072.jpg">
+          </div>
+          <div class="sketch-wrapper s2">
+            <h3 class="sketch-info">Attention Grab Design</h3>
+            <img class="sketch-img" src="./assets/sketches/IMG_4073.jpg">
+          </div>
+          <div class="sketch-wrapper s3">
+            <h3 class="sketch-info">Control Panel Design</h3>
+            <img class="sketch-img" src="./assets/sketches/IMG_4074.jpg">
+          </div>
+        </div>
+        <div class="sketch-row">
+          <div class="sketch-wrapper s1">
+            <h3 class="sketch-info">Final Reflection</h3>
+            <img class="sketch-img" src="./assets/sketches/IMG_4075.jpg">
+          </div>
+        </div>
+      </section>
+    </div>
+    
+    <script src="scroll.js"></script>
+    <script src="home.js"></script>
+  </body>
+</html>

@@ -17,7 +17,7 @@ const MessageType = {
 
 var wsServer = new ws.Server({ noServer: true });
 app
-    .use(express.static(path.join(__dirname, "public")))
+    .use(express.static(path.join(__dirname, "/public")))
     .use(function(req, res, next) {
         res.header("Access-Control-Allow-Origin", DOMAIN);
         res.header(
@@ -27,10 +27,16 @@ app
         next();
     })
     .get("/", (req, res) => {
-        res.sendFile(path.join(__dirname, "public/pages/index.html"));
+        res.sendFile(path.join(__dirname, "/public/index.html"));
     })
-    .get("/model", (req, res) => {
-        res.sendFile(path.join(__dirname, "public/pages/index.html"));
+    .get("/radio", (req, res) => {
+        res.sendFile(path.join(__dirname, "/public/radio/index.html"));
+    })
+    .get("/golf", (req, res) => {
+      res.sendFile(path.join(__dirname, "/public/golf/index.html"));
+    })
+    .get("/hallo", (req, res) => {
+      res.sendFile(path.join(__dirname, "/public/radio/index.html"));
     })
     .listen(PORT)
     .on("upgrade", (request, socket, head) => {

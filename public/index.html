@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Describe this page." />
+    <title>Sebastien</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display|Lato">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <!-- Scripts -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/ScrollMagic.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.5/plugins/animation.gsap.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.3/plugins/debug.addIndicators.js"></script>
+  </head>
+  <body>
+    <section class="panel main">
+      <div class="text">
+        <h1 class="title">
+          Hi, I'm Sebastien. 
+        </h1>
+        <p class="info main-info">
+          Computer Science Student /<br>Aspiring Front End Developer /<br>Filmmaker
+        </p>
+      </div>
+      <div id="main-dec" style="display: none;">
+        <div id="triangle"></div>
+        <div id="square"></div>
+      </div>
+      <div id="scroll-wrapper" class="flash">
+        <h3 class="scroll-text">scroll</h3>
+        <i class="fas fa-angle-double-down"></i>
+      </div>
+    </section>
+    <section class="panel about">
+      <div class="text">
+        <h1 class="title">
+          About 
+        </h1>
+        <p class="info" id="about-info">
+          I'm a computer science student from the <a class="a-link" href="https://www.ucalgary.ca/" target="_blank">University of Calgary</a>, 
+          graduating May 2022. I have a passion for web development and design, and a dream to become a front-end developer.<br><br>
+
+          I've worked for <a class="a-link" href="https://www.criticalmass.com/" target="_blank">Critical Mass</a>, building full-stack web apps and developing client pitches.  
+          I've also built things like <a class="a-link" href="https://github.com/sebastienwong/Chameleon" target="_blank">Chameleon</a>, a web-app port of
+          one of my favourite board games.<br><br>
+
+          In the past I've also made <a class="a-link" href="https://www.youtube.com/watch?v=7j4Xdfyp8t8" target="_blank">short films</a>, 
+          and I currently <a class="a-link" href="http://nutv.ca/" target="_blank">produce</a> them as well!
+        </p>
+      </div>
+      <div id="about-dec">
+        <img id="my-pic" src="assets/me.png" alt="My picture">
+        <div id="circle1"></div>
+        <div id="circle2"></div>
+      </div>
+    </section>
+    <section class="panel work">
+      <div class="text">
+        <h1 class="title">
+          Work 
+        </h1>
+        <p class="info" id="work-info">
+          Here's some of my work -><br><br>
+
+          This includes work I've done in my classes, as well as personal projects.<br><br>
+
+          I even build this portfolio from scratch using ScrollMagic!
+        </p>
+      </div>
+      <div id="gallery">
+        <div class="slide" onclick="route(0)">
+          <img class="work-img" src="assets/p0_thumbnail.png">
+        </div>
+        <div class="slide" onclick="route(1)" style="display:none">
+          <img class="work-img" src="assets/p1_thumbnail.png">
+        </div>
+        <div class="slide" onclick="route(2)" style="display:none">
+          <img class="work-img" src="assets/p2_thumbnail.png">
+        </div>
+        <div class="prev arrow" onclick="plusSlides(-1)">
+          <a>&#10094;</a>
+        </div>
+        <div class="next arrow" onclick="plusSlides(1)">
+          <a>&#10095;</a>
+        </div>
+      </div>
+    </section>
+    <section class="panel contact">
+      <div class="text">
+        <h1 class="title">
+          Contact
+        </h1>
+        <p class="info contact-info">
+          The end.
+          <br><br>
+          Thanks for sticking around.  If you're interested, here's my
+            <a id="resume" href="assets/Resume 2021.pdf" target="_blank">resume</a>.
+          <br><br>
+          And some of my socials:
+          <div class="icon-wrapper">
+            <a class="icon-link" href="https://www.linkedin.com/in/sebastienwong/" target="_blank">
+              <i class="fab fa-linkedin"></i>
+            </a>
+            <a class="icon-link" href="https://github.com/sebastienwong" target="_blank">
+              <i class="fab fa-github"></i>
+            </a>
+          </div>
+        </p>
+      </div>
+    </section>
+    <!--
+    <div id="triangle"></div>
+    -->
+    
+    <script src="scroll.js"></script>
+    <script src="gallery.js"></script>
+    <script src="router.js"></script>
+  </body>
+  <footer></footer>
+</html>
