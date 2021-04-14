@@ -300,6 +300,68 @@ html, body {
     filter: grayscale(0%);
 }
 
+#circle9 {
+    height: 2em;
+    width: 2em;
+    position: absolute;
+    left: 28%;
+    top: 60%;
+    border-radius: 50%;
+    background-color: #CAD2C5;
+
+    animation: floating1 6s ease 0s infinite;
+}
+
+#circle10 {
+    height: 2em;
+    width: 2em;
+    position: absolute;
+    left: 68%;
+    top: 30%;
+    border-radius: 50%;
+    background-color: #CAD2C5;
+
+    animation: floating2 6s ease 0s infinite;
+}
+
+#circle11 {
+    height: 1em;
+    width: 1em;
+    position: absolute;
+    left: 60%;
+    top: 10%;
+    border-radius: 50%;
+    background-color: #CAD2C5;
+
+    animation: floating1 6s ease 0s infinite;
+}
+
+#circle12 {
+    height: 1em;
+    width: 1em;
+    position: absolute;
+    left: 30%;
+    top: 20%;
+    border-radius: 50%;
+    background-color: #CAD2C5;
+
+    animation: floating2 6s ease 0s infinite;
+}
+
+#circle13 {
+    height: 1em;
+    width: 1em;
+    position: absolute;
+    left: 60%;
+    top: 90%;
+    border-radius: 50%;
+    background-color: #CAD2C5;
+
+    animation: floating2 6s ease 0s infinite;
+}
+
+
+
 .contact {
     display: grid;
     grid-template-columns: 25% 25% 25% 25%;
