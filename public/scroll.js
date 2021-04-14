@@ -48,5 +48,21 @@ $(function() {
     .setTween(work_timeline)
     .addTo(controller);
 
+
+    var contact_timeline = new TimelineMax();
+    var contact_tween = TweenMax.to("#contact-info", 1, {opacity: 1});
+    var contact_dec_tween = TweenMax.to("#contact-dec", 1, {opacity: 1});
+    contact_timeline.add([
+        contact_tween,
+        contact_dec_tween
+    ]);
+
+    new ScrollMagic.Scene({
+        triggerElement: slides[3],
+        duration: '75%'
+    })
+    .setTween(contact_timeline)
+    .addTo(controller);
+
     //slide_scenes[1].setTween("#about-dec", {opacity: 1});
 });

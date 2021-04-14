@@ -292,6 +292,7 @@ html, body {
     border-radius: 50%;
     -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
     filter: grayscale(100%);
+    transition: all 0.3s ease;
 }
 
 .work-img:hover {
@@ -370,12 +371,13 @@ html, body {
     margin-bottom: 0;
 }
 
-.contact-info {
+#contact-info {
     color: #2F3E46;
     font-weight: bold;
+    opacity: 0;
 }
 
-.contact-dec {
+#contact-dec {
     height: 100%;
     position: relative;
     grid-column-start: 3;
@@ -385,7 +387,7 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 1;
+    opacity: 0;
 }
 
 #circle6 {
