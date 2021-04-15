@@ -372,9 +372,11 @@ html, body {
 }
 
 #contact-info {
-    color: #2F3E46;
-    font-weight: bold;
     opacity: 0;
+}
+
+#contact-text {
+    color: #2F3E46;
 }
 
 #contact-dec {
@@ -438,10 +440,6 @@ html, body {
     text-decoration-color: #354F52;
 }
 
-.icon-wrapper {
-    
-}
-
 .icon-link {
     text-decoration: none;
     margin-right: 0.5rem;
@@ -452,6 +450,13 @@ html, body {
 .icon-link:hover {
     cursor: pointer;
     color: #354F52;
+}
+
+
+
+
+.circle:hover {
+    
 }
 
 @keyframes flash {
@@ -517,7 +522,6 @@ html, body {
         transform: translateX(25px);
         opacity: 0;
     }
-
     100% {
         transform: translateX(0px);
         opacity: 1;
@@ -529,9 +533,11 @@ html, body {
         transform: translateX(-25px);
         opacity: 0;
     }
-
     100% {
         transform: translateX(0px);
         opacity: 1;
     }
+}
+
+@keyframes grow {
 }
