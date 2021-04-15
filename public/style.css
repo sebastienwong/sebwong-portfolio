@@ -455,8 +455,10 @@ html, body {
 
 
 
-.circle:hover {
-    
+.circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 @keyframes flash {
