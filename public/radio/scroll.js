@@ -6,6 +6,5 @@ $(function() {
         triggerHook: 'onLeave'
     })
     .setPin('#header')
-    .addIndicators() // add indicators (requires plugin)
     .addTo(controller);
 });
