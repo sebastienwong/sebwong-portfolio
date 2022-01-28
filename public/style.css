@@ -35,10 +35,11 @@ html, body {
 }
 
 .title {
-    font-size: 10rem;
+    font-size: 18vh;
     font-weight: normal;
     color: #CAD2C5;
     margin-bottom: 0.25em;
+    margin-top: 20%;
     text-align: left;
 }
 
@@ -192,7 +193,7 @@ html, body {
 .info {
     width: 100%;
     font-family: 'Lato';
-    font-size: 1.3rem;
+    font-size: 2.5vh;
     font-weight: normal;
     letter-spacing: 0.1rem;
     color: #CAD2C5;
